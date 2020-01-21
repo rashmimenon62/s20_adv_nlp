@@ -62,6 +62,7 @@ print(document.getEntities())
 # Steps
 # 1 - load reuters
 #       from NLTK
+
 # 1a - load spacy
 # 1b - load spacy model
 # 2 - Iterate through and turn into doc objects
