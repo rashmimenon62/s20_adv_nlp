@@ -6,10 +6,10 @@
 #%% Packages
 import spacy
 from nltk.corpus import reuters
-model = spacy.load("en_core_web_lg")
 import pickle
 import time
 
+model = spacy.load("en_core_web_lg")
 start = time.time()
 
 
