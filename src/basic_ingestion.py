@@ -1,71 +1,139 @@
-# from nltk.corpus import reuters
-#
-#
-# import spacy
-# nlp = spacy.load("en")
+#Author: Charles Garrett Eason
+#Class: Advanced NLP
+#Version: 1.0
+#encoding: utf-8
 
+#%% Packages
+import spacy
+from nltk.corpus import reuters
+model = spacy.load("en_core_web_lg")
+import pickle
+import time
+
+start = time.time()
+
+
+#%% Classes and Functions
 class Entity:
-    def __init__(self):
-        self.text = None # the actual text that spacy extracts
-        self.begin = None # the start offset of the named entity
-        self.end = None # the end offset of the named entity
-        self.label = None # the label associated with the entity
+    def __init__(self, entity):
+        self._text = entity.text # the actual text that spacy extracts
+        self._begin = entity.start_char # the start offset of the named entity
+        self._end = entity.end_char # the end offset of the named entity
+        self._name = entity.label_ # the name associated with the entity
 
-    def setText(self, text):
-        self.text = text
+    #Name Getter
+    @property
+    def name(self):
+        return self._name
 
-    def getText(self):
-        return self.text
+    #Name Setter
+    @name.setter
+    def name(self, name):
+        self._name = name
 
-    def printName(self):
-        print(self.name)
+    #Text Getter
+    @property
+    def text(self):
+        return self._text
+
+    #Text Setter
+    @text.setter
+    def text(self, text):
+        self._text = text
+
+    #Begin Getter
+    @property
+    def begin(self):
+        return self._begin
+
+    #Begin Setter
+    @begin.setter
+    def begin(self, begin):
+        self._begin = begin
+
+    #End Getter
+    @property
+    def end(self):
+        return self._end
+
+    #End Setter
+    @end.setter
+    def end(self, end):
+        self._end = end
 
     def __repr__(self):
-        return "<Entity: " + self.text + ">"
+        return "<"+ self.name + ": " + self.text + ">"
+
 
 class Document:
-    def __init__(self):
-        self.text = None
-        self.entities = []
+    def __init__(self, id, doc, model=model):
+        self._id = id
+        self._doc = doc
+        self._model = model(doc)
+        self._entities = []
 
-    def setText(self, text):
-        self.text = text
+    #Id Getter
+    @property
+    def id(self):
+        return self._id
 
-    def getText(self):
-        return self.text
+    #Id Setter
+    @id.setter
+    def id(self, id):
+        self._id = id
 
+    #Doc Getter
+    @property
+    def doc(self):
+        return self._doc
+
+    #Doc Setter
+    @doc.setter
+    def doc(self, doc):
+        self._doc = doc
+
+    #Model Getter
+    @property
+    def model(self):
+        return self._model
+
+    #Model Setter
+    @model.setter
+    def model(self, model):
+        self._model = model
+
+    #Entities Getter
+    @property
+    def entities(self):
+        return self._entities
+
+    #Entities Adder
     def addEntity(self, entity):
         self.entities.append(entity)
 
-    def getEntities(self):
-        return self.entities
-
-document = Document()
-document.setText("This is a text of any text to see")
-print(document.getText())
+    def __repr__(self):
+        return self.id
 
 
-entity = Entity()
-entity.setText("any text")
-print(entity.getText())
+#%% Execution
+doc_list = []
+for doc in reuters.fileids():
+    doc_ob = Document(doc, reuters.open(doc).read())
+    for ent in doc_ob.model.ents:
+        doc_ob.addEntity(Entity(ent))
+    doc_list.append(doc_ob)
 
-document.addEntity(entity)
-print(document.getEntities())
+#Writing
+f = open('doc_list', 'wb')
+pickle.dump(doc_list, f)
+f.close()
 
+#Reading
+# f = open('doc_list', 'rb')
+# doc_list = pickle.load(f)
+# f.close()
 
-
-
-# for fileid in reuters.fileids():
-#     print(fileid)
-
-
-# Steps
-# 1 - load reuters
-#       from NLTK
-# 1a - load spacy
-# 1b - load spacy model
-# 2 - Iterate through and turn into doc objects
-# 3 - Extract entities
-# 3b - Store entities in appropriate objects
-# 4 - Insert docs into storage system
-# 5 -
+#Runtime
+end = time.time()
+print('Program Complete!')
+print('Runtime in seconds: ' + str(round(end - start)))
