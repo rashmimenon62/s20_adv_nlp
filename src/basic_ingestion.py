@@ -1,8 +1,11 @@
-# from nltk.corpus import reuters
-#
-#
-# import spacy
-# nlp = spacy.load("en")
+import nltk
+nltk.download('reuters')
+from nltk.corpus import reuters
+
+print(reuters.categories())
+
+import spacy
+nlp = spacy.load("en_core_web_lg")
 
 class Entity:
     def __init__(self):
@@ -17,16 +20,17 @@ class Entity:
     def getText(self):
         return self.text
 
-    def printName(self):
-        print(self.name)
-
     def __repr__(self):
         return "<Entity: " + self.text + ">"
 
 class Document:
     def __init__(self):
+        self.id = None
         self.text = None
         self.entities = []
+
+    def setId(self, id):
+        self.id = id
 
     def setText(self, text):
         self.text = text
@@ -40,24 +44,24 @@ class Document:
     def getEntities(self):
         return self.entities
 
-document = Document()
-document.setText("This is a text of any text to see")
-print(document.getText())
 
+documentArr = []
+for fileid in reuters.fileids():
+    #print(fileid)
+    document = Document()
+    document.setId(fileid)
+    docText = reuters.raw(fileid)
+    document.setText(docText)
+    spacyDoc = nlp(docText)
+    for ent in spacyDoc.ents:
+        entity = Entity()
+        entity.setText(ent)
+        document.addEntity(entity)
 
-entity = Entity()
-entity.setText("any text")
-print(entity.getText())
+    print("Added " + str(len(document.getEntities())) + " entities to doc " + fileid )
+    documentArr.append(document)
 
-document.addEntity(entity)
-print(document.getEntities())
-
-
-
-
-# for fileid in reuters.fileids():
-#     print(fileid)
-
+print("Created " + str(len(documentArr)) + " documents")
 
 # Steps
 # 1 - load reuters
