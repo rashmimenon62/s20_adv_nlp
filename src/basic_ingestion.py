@@ -1,8 +1,13 @@
-# from nltk.corpus import reuters
+from nltk.corpus import reuters
 #
 #
-# import spacy
-# nlp = spacy.load("en")
+import spacy
+nlp = spacy.load("en")
+
+doc = """This is a test document written by Jake Flake. This is also a test."""
+
+analyzed = nlp(doc)
+print(analyzed)
 
 class Entity:
     def __init__(self):
@@ -55,8 +60,8 @@ print(document.getEntities())
 
 
 
-# for fileid in reuters.fileids():
-#     print(fileid)
+for fileid in reuters.fileids():
+    print(fileid)
 
 
 # Steps
