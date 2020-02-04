@@ -4,6 +4,8 @@ en = spacy.load('en_core_web_lg')
 #nltk.download('reuters')
 from nltk.corpus import reuters
 
+# test
+
 class PatternExtractor:
     def __init__(self, text):
         self.text = text
