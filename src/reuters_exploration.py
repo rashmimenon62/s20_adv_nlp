@@ -23,4 +23,6 @@ reuters.raw(cat)
 # HW: Come in with 10 words - pull the entire sentence with seed words and doc ids.
 # Think about semantic categories you are identifying.
 
+# Setup SQL alchemy
+
 # Next week: talk through the scoring methods
