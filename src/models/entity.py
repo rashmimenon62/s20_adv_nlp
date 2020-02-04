@@ -1,31 +1,56 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Feb  3 20:51:20 2020
+
+@author: Garrett
+"""
+
 class Entity:
-    def __init__(self):
-        self.text = '' # the actual text that spacy extracts
-        self.begin = None # the start offset of the named entity
-        self.end = None # the end offset of the named entity
-        self.label = None # the label associated with the entity
+    def __init__(self, entity):
+        self._text = entity.text # the actual text that spacy extracts
+        self._begin = entity.start_char # the start offset of the named entity
+        self._end = entity.end_char # the end offset of the named entity
+        self._name = entity.label_ # the name associated with the entity
 
-    def setText(self, text):
-        self.text = text
+    #Name Getter
+    @property
+    def name(self):
+        return self._name
 
-    def setOffsets(self,fIrst,laSt):
-        self.begin = fIrst
-        self.end = laSt
-    def setLabel(self,label):
-        self.label = label
+    #Name Setter
+    @name.setter
+    def name(self, name):
+        self._name = name
 
-    def getText(self):
+    #Text Getter
+    @property
+    def text(self):
+        return self._text
 
-        return self.text
+    #Text Setter
+    @text.setter
+    def text(self, text):
+        self._text = text
 
-    def getOffsets(self):
-        return([self.begin,self.end])
+    #Begin Getter
+    @property
+    def begin(self):
+        return self._begin
 
-    def getLabel(self):
-        return(self.label)
+    #Begin Setter
+    @begin.setter
+    def begin(self, begin):
+        self._begin = begin
 
-    def printName(self):
-        print(self.name)
+    #End Getter
+    @property
+    def end(self):
+        return self._end
+
+    #End Setter
+    @end.setter
+    def end(self, end):
+        self._end = end
 
     def __repr__(self):
-        return "<Entity: " + self.text + ">"
+        return f'<{self.name}: {self.text}>'

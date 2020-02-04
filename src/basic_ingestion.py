@@ -1,27 +1,35 @@
-import nltk
+#Author: Charles Garrett Eason
+#Class: Advanced NLP
+#Version: .01
+#encoding: utf-8
+
+#%% Packages
 import spacy
-en = spacy.load('en_core_web_lg')
-#nltk.download('reuters')
 from nltk.corpus import reuters
-import json
-
-
+import pickle
+from tqdm import tqdm
 from models import Entity
 from models import Document
+model = spacy.load("en_core_web_lg")
 
+#%% Execution
 docDict = {}
-from tqdm import tqdm
-for fid in tqdm(reuters.fileids()):
-    # set each key in the dictionary to be the fileid...
-    # then the value will be an empty instance of the Document class
-    docDict[fid] = {'Doc':Document(),'ents':[]}
-    docDict[fid]['Doc'].text = reuters.raw(fid)
-    nlpTemp = en(docDict[fid]['Doc'].text)
-    raw_ents = [[m.start_char,m.end_char,m.label_,m.text] for m in nlpTemp.ents]
-    if len(nlpTemp.ents)>0:
-        [docDict[fid]['ents'].append(Entity()) for x in range(len(nlpTemp.ents))]
-        for x in range(len(nlpTemp.ents)):
-            docDict[fid]['ents'][x].setOffsets(raw_ents[x][0], raw_ents[x][1])
-            docDict[fid]['ents'][x].setLabel(raw_ents[x][2])
-            docDict[fid]['ents'][x].setText(raw_ents[x][3])
-            docDict[fid]['Doc'].addEntity(docDict[fid]['ents'][x])
+for ID in tqdm(reuters.fileids()):
+    doc_ob = Document(ID, reuters.raw(ID), model=model)
+    for ent in doc_ob.model.ents:
+        doc_ob.addEntity(Entity(ent))
+    docDict[ID] = {
+        'Doc' : doc_ob, 
+        'ents' : doc_ob.entities
+    }
+
+#Writing
+f = open('docDict', 'wb')
+pickle.dump(docDict, f)
+f.close()
+
+#Reading
+# f = open('doc_list', 'rb')
+# doc_list = pickle.load(f)
+# f.close()
+
