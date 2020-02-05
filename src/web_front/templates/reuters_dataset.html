@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Doc ID</th>
+      <th scope="col">Categories</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for doc in docs %}
+    <tr>
+      <th scope="row">{{doc.id}}</th>
+      <td >{{doc.doc_id}}</td>
+        <td >{{doc.categories}}</td>
+      <td><a href="/view_page?id={{doc.id}}">View</a></td>
+    </tr>
+    {%endfor%}
+
+  </tbody>
+</table>
+{% endblock %}

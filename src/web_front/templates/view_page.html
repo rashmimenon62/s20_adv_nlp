@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}<dl class="row">
+  <dt class="col-sm-3">ID</dt>
+    <dd class="col-sm-9">{{doc.id }}</dd>
+
+    <dt class="col-sm-3">Doc ID</dt>
+    <dd class="col-sm-9">{{doc.doc_id }}</dd>
+
+    <dt class="col-sm-3">Categories</dt>
+    <dd class="col-sm-9">{{doc.categories }}</dd>
+
+</dl>
+
+
+<h2>Text Content</h2>
+
+<div class="card card-body bg-light" style="white-space: pre;">{{ doc.body }}</div>
+
+<br>
+{% endblock %}
