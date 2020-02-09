@@ -11,7 +11,7 @@ def create_app():
 
     app.config['SECRET_KEY'] = '98172439817230aowfuha'
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nlpuser:nlpuserpassword@localhost:3306/gw_nlp?charset=utf8'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://seanp:iamr00t@localhost:3306/gw_nlp?charset=utf8'
 
     db.init_app(app)
 

@@ -6,7 +6,15 @@ import nltk
 import spacy
 from nltk.corpus import reuters
 
-
+if not engine.dialect.has_table(engine, 'reuters_docs'):  # If table don't exist, Create.
+    # Create a table with the appropriate Columns
+    metadata = db.MetaData(engine)
+    db.Table('reuters_docs', metadata,
+          db.Column('id', db.Integer, primary_key=True),
+          db.Column('doc_id', db.String(length=900)), db.Column('categories', db.Text()),
+          db.Column('body', db.Text()))
+    # Implement the creation
+    metadata.create_all()
 for fid in reuters.fileids():
     doc_body = reuters.raw(fid)
     doc_categories = "; ".join(reuters.categories(fid))

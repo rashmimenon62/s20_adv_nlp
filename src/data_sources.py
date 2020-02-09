@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 engine = db.create_engine(
-    'mysql+mysqlconnector://nlpuser:nlpuserpassword@localhost:3306/gw_nlp?charset=utf8',
+    'mysql+pymysql://seanp:iamr00t@localhost:3306/gw_nlp?charset=utf8'
     #     echo=True
 )
 connection = engine.connect()

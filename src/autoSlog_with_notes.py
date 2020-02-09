@@ -168,3 +168,19 @@ for index, fid in reuters.fileids():
 # so two of our friends will talk about the papers...
 
 # so we should say waht we DIDN'T get and waht we got...
+
+if not engine.dialect.has_table(engine, 'reuters_docs'):  # If table don't exist, Create.
+    # Create a table with the appropriate Columns
+    metadata = db.MetaData(engine)
+    Table('reuters_docs', metadata,
+          db.Column('id', db.Integer, primary_key=True),
+          db.Column('doc_id', db.String(length=900)), db.Column('categories', db.String()),
+          db.Column('body', db.String()))
+    # Implement the creation
+    metadata.create_all()
+
+    __tablename__ = 'reuters_docs'
+    id = db.Column(db.Integer, primary_key=True)
+    doc_id = db.Column(db.String(length=900))
+    categories = db.Column(db.String())
+    body = db.Column(db.String())
