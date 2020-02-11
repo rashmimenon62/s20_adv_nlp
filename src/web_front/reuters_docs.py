@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from . import db
-from .models import ReutersDoc
+from .models import ReutersDoc, SeedSentences
 
 reuters_docs = Blueprint('reuters_docs', __name__)
 
@@ -17,3 +17,23 @@ def view_page():
     doc = ReutersDoc.query.filter_by(id=id).first()
 
     return render_template('view_page.html', doc=doc)
+
+@reuters_docs.route('/seed_sentence_submit', methods=["POST"])
+def seed_sentence_submit():
+    print("SEED")
+
+    print(request.form)
+    begin_offset = request.form['start_offset']
+    print("slfkjas")
+    end_offset = request.form['end_offset']
+    sentence_text = request.form['sentence_text']
+    doc_id = request.form['document_id']
+
+    new_sentence = SeedSentences(reuters_doc_id = int(doc_id),
+        begin_offset = begin_offset,
+        end_offset = end_offset,
+        sentence_text = sentence_text)
+    db.session.add(new_sentence)
+    db.session.commit()
+    print("OFFEST")
+    return redirect(url_for('view_pageid=?' + str(doc_id)))

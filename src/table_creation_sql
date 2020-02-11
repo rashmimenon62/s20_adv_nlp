@@ -1,0 +1,24 @@
+CREATE TABLE `extraction_patterns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reuters_doc_id` int(11) DEFAULT NULL,
+  `pattern` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `reuters_docs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `doc_id` varchar(45) DEFAULT NULL,
+  `categories` varchar(950) DEFAULT NULL,
+  `body` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `seed_sentences` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reuters_doc_id` int(11) DEFAULT NULL,
+  `begin_offset` int(11) DEFAULT NULL,
+  `end_offset` int(11) DEFAULT NULL,
+  `sentence_text` varchar(999) DEFAULT NULL,
+  `target_word` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
